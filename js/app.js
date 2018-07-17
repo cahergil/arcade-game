@@ -24,9 +24,11 @@ class Enemy {
     
     // Draw the enemy on the screen, required method for game   
     render() {
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        const img = Resources.get(this.sprite);
+        ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+        ctx.drawImage(img, this.x, this.y);
     }
-
+ 
 }
 
 
@@ -45,7 +47,9 @@ class Player {
     }
 
     render(){
-        ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+        const img = Resources.get(this.sprite);
+        ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+        ctx.drawImage(img, this.x, this.y);
     }
     
     // Update the player position, required method for game
@@ -64,49 +68,104 @@ class Player {
             this.y += this.distance; 
         }
 
+        this.checkCollision();
 
         
     }
+    
+    checkCollision(){
+        const playerImg = Resources.get(this.sprite);
+        const playerCoordinateY = this.y;
+        const playerCoordinateX = this.x;
+        allEnemies.forEach(function(enemy){
+            const enemyImg =  Resources.get(enemy.sprite); 
+            //console.log(`width:${img.naturalWidth},height:${img.naturalHeight}`); 
+            //down-left corner collision
+            if( ( (enemy.y + enemyImg.naturalHeight > playerCoordinateY) && 
+                    (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight) ) 
+                && 
+                    ( (enemy.x > playerCoordinateX ) && 
+                        (enemy.x < playerCoordinateX + playerImg.naturalWidth)
+                ) ) {
+                    console.log("collision");    
+                    return true;
+            //top-left corner collision
+            } else if( ( (enemy.y > playerCoordinateY) && 
+                            (enemy.y <playerCoordinateY + playerImg.naturalHeight) ) 
+                      && 
+                        ( (enemy.x > playerCoordinateX) && 
+                            (enemy.x < playerCoordinateX + playerImg.naturalWidth) 
+                ) ) {
+                    console.log("collision"); 
+                    return true;
+            //down-right corner collision        
+            } else if ( ( (enemy.x +enemyImg.naturalWidth > playerCoordinateX) && 
+                            (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth) )
+                    && 
+                        ( (enemy.y + enemyImg.naturalHeight > playerCoordinateY) && 
+                            (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight) 
+                    ) ) {
+                    console.log("collision"); 
+                    return true;
+            //up-right corner collision        
+            } else if ( ( (enemy.x + enemyImg.naturalWidth > playerCoordinateX) && 
+                            (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) 
+                    && 
+                        ( (enemy.y > playerCoordinateY) && 
+                            (enemy.y < playerCoordinateY + playerImg.naturalHeight)) ) {
+                                console.log("collision"); 
+                                return true;
+            }  else {
+                return false;
+            }
+        
+           
+        });
+    }
 
     handleInput(keyCode) {
-        let canvas = document.querySelector('canvas');
+        const img = Resources.get(this.sprite);
+        const step = 20;
         switch(keyCode) {
             case 'left':
-                if(this.x - 20 >= 0) {
+                if(this.x - step >= 0) {
                     this.moveX = true;
-                    this.distance = -20;     
+                    this.distance = -step;     
                     console.log('left x=',this.x);
                 }
                 
                 break;
             case 'right':
                 
-                if(this.x + 20 < 420) {
+                if(this.x + step + img.naturalWidth < ctx.canvas.width) {
                     this.moveX = true;
-                    this.distance = 20;
+                    this.distance = step;
                     console.log('right x',this.x);
                 }
                
                 break;
             case 'up':
         
-                if (this.y - 20 > 0) {
+                if (this.y - step > 0) {
                     this.moveY = true;
-                    this.distance = -20;
+                    this.distance = -step;
                     console.log('up y', this.y);
                 }
                 break;
             case 'down':
                 
-                if (this.y + 20 < 440) {
+                if (this.y + step + img.naturalHeight < 580) {
                     this.moveY = true;
-                    this.distance = 20;     
+                    this.distance = step;     
                     console.log('down y',this.y);
 
                 }
                      
         }
     }
+
+  
+
 }
 
 
