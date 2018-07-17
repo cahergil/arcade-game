@@ -68,12 +68,18 @@ class Player {
             this.y += this.distance; 
         }
 
-        this.checkCollision();
+        
+        if(this.checkCollision()) {
+            
+            this.x = 200;
+            this.y = 450;
+        }
 
         
     }
     
     checkCollision(){
+        let isCollision = false;
         const playerImg = Resources.get(this.sprite);
         const playerCoordinateY = this.y;
         const playerCoordinateX = this.x;
@@ -87,8 +93,8 @@ class Player {
                     ( (enemy.x > playerCoordinateX ) && 
                         (enemy.x < playerCoordinateX + playerImg.naturalWidth)
                 ) ) {
-                    console.log("collision");    
-                    return true;
+                    //console.log("collision");    
+                    isCollision = true;
             //top-left corner collision
             } else if( ( (enemy.y > playerCoordinateY) && 
                             (enemy.y <playerCoordinateY + playerImg.naturalHeight) ) 
@@ -96,8 +102,8 @@ class Player {
                         ( (enemy.x > playerCoordinateX) && 
                             (enemy.x < playerCoordinateX + playerImg.naturalWidth) 
                 ) ) {
-                    console.log("collision"); 
-                    return true;
+                    //console.log("collision"); 
+                    isCollision = true;
             //down-right corner collision        
             } else if ( ( (enemy.x +enemyImg.naturalWidth > playerCoordinateX) && 
                             (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth) )
@@ -105,22 +111,24 @@ class Player {
                         ( (enemy.y + enemyImg.naturalHeight > playerCoordinateY) && 
                             (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight) 
                     ) ) {
-                    console.log("collision"); 
-                    return true;
+                    //console.log("collision"); 
+                    isCollision = true;
             //up-right corner collision        
             } else if ( ( (enemy.x + enemyImg.naturalWidth > playerCoordinateX) && 
                             (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) 
                     && 
                         ( (enemy.y > playerCoordinateY) && 
-                            (enemy.y < playerCoordinateY + playerImg.naturalHeight)) ) {
-                                console.log("collision"); 
-                                return true;
+                            (enemy.y < playerCoordinateY + playerImg.naturalHeight)
+                    ) ) {
+                    //console.log("collision"); 
+                    isCollision = true;
             }  else {
-                return false;
+                isCollision = false;
             }
         
            
         });
+        return isCollision;
     }
 
     handleInput(keyCode) {
@@ -173,7 +181,7 @@ class Player {
 // Now instantiate your objects.
 
 // Place the player object in a variable called player
-const player = new Player(200, 400);
+const player = new Player(200, 450);
 
 const enemy1 = new Enemy(10,140);
 const enemy2 = new Enemy(10,220);
