@@ -7,6 +7,7 @@ class Enemy {
         this.speed = (()=>
             (Math.random()+1) * 50
         )();
+    
     }
     
     // Update the enemy's position, required method for game
@@ -36,13 +37,15 @@ class Enemy {
 // This class requires an update(), render() and
 // a handleInput() method.
 class Player {
-    constructor(x,y) {
+    constructor(x,y,lives = 3,score = 0) {
         this.x = x;
         this.y = y;
         this.sprite = 'images/char-boy.png';
         this.moveX = false;
         this.moveY = false;
         this.distance = 0;
+        this.lives = 3;
+        this.score = 0;
         
     }
 
@@ -71,13 +74,50 @@ class Player {
         
         if(this.checkCollision()) {
             console.log('there was a collision,change player position')
-            this.x = 200;
-            this.y = 450;
+            this.lives--;
+            if (this.lives >= 0 ){
+                const livesElement = document.querySelector('.lives-item');
+                livesElement.innerHTML = this.lives;    
+            } else {
+                alert(`game finished, you got ${this.score}!!`);
+                this.resetLives();
+                this.resetScore();
+            }
+            this.gotoInitialPosition();
         }
 
+        if(this.reachedWatter()) {
+
+            this.score+= 100;
+            const scoreElement = document.querySelector('.score-item');
+            scoreElement.innerHTML = this.score;
+            this.gotoInitialPosition();
+        }
         
     }
-    
+
+    resetLives(){
+        const livesElement = document.querySelector('.lives-item');
+        livesElement.innerHTML = 3;    
+        this.lives = 3;
+    } 
+    resetScore() {
+        const scoreElement = document.querySelector('.score-item');
+        scoreElement.innerHTML = 0;
+        this.score = 0;
+    }
+    gotoInitialPosition() {
+        this.x = 200;
+        this.y = 450;
+    }
+    reachedWatter() {
+        if(this.y <= 90) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     checkCollision(){
         let isCollision = false;
         const playerImg = Resources.get(this.sprite);
@@ -154,7 +194,7 @@ class Player {
                 break;
             case 'up':
         
-                if (this.y - step > 90) {
+                if (this.y - step > 50) {
                     this.moveY = true;
                     this.distance = -step;
                     console.log('up y', this.y);
