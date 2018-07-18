@@ -4,22 +4,22 @@
  * and the speed of the bugs
  */
 class Enemy {
-    constructor(x,y) {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
         this.sprite = 'images/enemy-bug.png';
-        this.speed = (()=>
-            (Math.random()+1) * 50
+        this.speed = (() =>
+            (Math.random() + 1) * 50
         )();
-    
+
     }
-    
+
     /**
      * updates the position of the object on the canvas
      */
     update(dt) {
-        this.x +=this.speed*dt;
-        if(this.x > 520) {
+        this.x += this.speed * dt;
+        if (this.x > 520) {
             this.x = -101;
         }
     }
@@ -32,7 +32,7 @@ class Enemy {
         const img = Resources.get(this.sprite);
         ctx.drawImage(img, this.x, this.y);
     }
- 
+
 }
 
 /**
@@ -45,7 +45,7 @@ class Enemy {
  * 
  */
 class Player {
-    constructor(x,y,lives = 3,score = 0) {
+    constructor(x, y, lives = 3, score = 0) {
         this.x = x;
         this.y = y;
         this.sprite = 'images/char-boy.png';
@@ -54,7 +54,7 @@ class Player {
         this.distance = 0;
         this.lives = 3;
         this.score = 0;
-        
+
     }
 
     /**
@@ -68,21 +68,21 @@ class Player {
      */
     update() {
 
-        if ( this.moveX ) {
+        if (this.moveX) {
             this.moveX = false;
-            this.x += this.distance; 
-            
-        } else if ( this.moveY ) {
+            this.x += this.distance;
+
+        } else if (this.moveY) {
             this.moveY = false;
-            this.y += this.distance; 
+            this.y += this.distance;
         }
-      
-        if(this.checkCollision()) {
+
+        if (this.checkCollision()) {
             console.log('there was a collision,change player position')
             this.lives--;
-            if (this.lives >= 0 ){
+            if (!this.isGameEnded()) {
                 const livesElement = document.querySelector('.lives-item');
-                livesElement.innerHTML = this.lives;    
+                livesElement.innerHTML = this.lives;
             } else {
                 alert(`game finished, you got ${this.score}!!`);
                 this.resetLives();
@@ -91,35 +91,43 @@ class Player {
             this.gotoInitialPosition();
         }
 
-        if(this.reachedWatter()) {
+        if (this.reachedWatter()) {
 
-            this.score+= 100;
+            this.score += 100;
             const scoreElement = document.querySelector('.score-item');
             scoreElement.innerHTML = this.score;
             this.gotoInitialPosition();
         }
-        
+
     }
-    
+
+    /**
+     * check if the player still has lives
+     */
+    isGameEnded() {
+
+        return this.lives < 0;
+
+    }
     /**
      * render the player according to its position
      */
-    render(){
+    render() {
         const img = Resources.get(this.sprite);
         ctx.drawImage(img, this.x, this.y);
     }
 
-     /**
+    /**
      * reset the live span in score panel and the lives 
      * property of the player 
      */
-    resetLives(){
+    resetLives() {
         const livesElement = document.querySelector('.lives-item');
-        livesElement.innerHTML = 3;    
+        livesElement.innerHTML = 3;
         this.lives = 3;
-    } 
+    }
 
-     /**
+    /**
      * reset the score span in score panel and the score 
      * property of the player 
      */
@@ -141,7 +149,7 @@ class Player {
      * check if the player reached the water on the canvas
      */
     reachedWatter() {
-        if(this.y <= 90) {
+        if (this.y <= 90) {
             return true;
         } else {
             return false;
@@ -155,54 +163,50 @@ class Player {
      * between the player's and an the enemy's sprite, it will return
      * true, else will return false.
      */
-    checkCollision(){
+    checkCollision() {
         let isCollision = false;
         const playerImg = Resources.get(this.sprite);
         const playerCoordinateY = this.y;
         const playerCoordinateX = this.x;
-        allEnemies.forEach(function(enemy){
-            const enemyImg =  Resources.get(enemy.sprite); 
+        allEnemies.forEach(function (enemy) {
+            const enemyImg = Resources.get(enemy.sprite);
             //down-left corner collision
-            if( ( (enemy.y + enemyImg.naturalHeight > playerCoordinateY) && 
-                    (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight) ) 
-                && 
-                    ( (enemy.x > playerCoordinateX ) && 
-                        (enemy.x < playerCoordinateX + playerImg.naturalWidth)
-                ) ) {
-                    console.log("collision");    
-                    isCollision = true;
-            //top-left corner collision
-            } else if( ( (enemy.y > playerCoordinateY) && 
-                            (enemy.y <playerCoordinateY + playerImg.naturalHeight) ) 
-                      && 
-                        ( (enemy.x > playerCoordinateX) && 
-                            (enemy.x < playerCoordinateX + playerImg.naturalWidth) 
-                ) ) {
-                    console.log("collision"); 
-                    isCollision = true;
-            //down-right corner collision        
-            } else if ( ( (enemy.x +enemyImg.naturalWidth > playerCoordinateX) && 
-                            (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth) )
-                    && 
-                        ( (enemy.y + enemyImg.naturalHeight > playerCoordinateY) && 
-                            (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight) 
-                    ) ) {
-                    console.log("collision"); 
-                    isCollision = true;
-            //up-right corner collision        
-            } else if ( ( (enemy.x + enemyImg.naturalWidth > playerCoordinateX) && 
-                            (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) 
-                    && 
-                        ( (enemy.y > playerCoordinateY) && 
-                            (enemy.y < playerCoordinateY + playerImg.naturalHeight)
-                    ) ) {
-                    console.log("collision"); 
-                    isCollision = true;
-            }  else {
+            if (((enemy.y + enemyImg.naturalHeight > playerCoordinateY) &&
+                    (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight)) &&
+                ((enemy.x > playerCoordinateX) &&
+                    (enemy.x < playerCoordinateX + playerImg.naturalWidth)
+                )) {
+                console.log("collision");
+                isCollision = true;
+                //top-left corner collision
+            } else if (((enemy.y > playerCoordinateY) &&
+                    (enemy.y < playerCoordinateY + playerImg.naturalHeight)) &&
+                ((enemy.x > playerCoordinateX) &&
+                    (enemy.x < playerCoordinateX + playerImg.naturalWidth)
+                )) {
+                console.log("collision");
+                isCollision = true;
+                //down-right corner collision        
+            } else if (((enemy.x + enemyImg.naturalWidth > playerCoordinateX) &&
+                    (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
+                ((enemy.y + enemyImg.naturalHeight > playerCoordinateY) &&
+                    (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight)
+                )) {
+                console.log("collision");
+                isCollision = true;
+                //up-right corner collision        
+            } else if (((enemy.x + enemyImg.naturalWidth > playerCoordinateX) &&
+                    (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
+                ((enemy.y > playerCoordinateY) &&
+                    (enemy.y < playerCoordinateY + playerImg.naturalHeight)
+                )) {
+                console.log("collision");
+                isCollision = true;
+            } else {
                 //isCollision = false;
             }
-        
-           
+
+
         });
         return isCollision;
     }
@@ -215,26 +219,26 @@ class Player {
     handleInput(keyCode) {
         const img = Resources.get(this.sprite);
         const step = 20;
-        switch(keyCode) {
+        switch (keyCode) {
             case 'left':
-                if(this.x - step >= 0) {
+                if (this.x - step >= 0) {
                     this.moveX = true;
-                    this.distance = -step;     
-                    console.log('left x=',this.x);
+                    this.distance = -step;
+                    console.log('left x=', this.x);
                 }
-                
+
                 break;
             case 'right':
-                
-                if(this.x + step + img.naturalWidth < ctx.canvas.width) {
+
+                if (this.x + step + img.naturalWidth < ctx.canvas.width) {
                     this.moveX = true;
                     this.distance = step;
-                    console.log('right x',this.x);
+                    console.log('right x', this.x);
                 }
-               
+
                 break;
             case 'up':
-        
+
                 if (this.y - step > 50) {
                     this.moveY = true;
                     this.distance = -step;
@@ -242,18 +246,18 @@ class Player {
                 }
                 break;
             case 'down':
-                
+
                 if (this.y + step + img.naturalHeight < 580) {
                     this.moveY = true;
-                    this.distance = step;     
-                    console.log('down y',this.y);
+                    this.distance = step;
+                    console.log('down y', this.y);
 
                 }
-                     
+
         }
     }
 
-  
+
 
 }
 
@@ -263,19 +267,19 @@ class Player {
 const player = new Player(200, 450);
 
 // instantiation of the enemies
-const enemy1 = new Enemy(10,140);
-const enemy2 = new Enemy(10,220);
-const enemy3 = new Enemy(10,300);
+const enemy1 = new Enemy(10, 140);
+const enemy2 = new Enemy(10, 220);
+const enemy3 = new Enemy(10, 300);
 
 //array of enemies
-const allEnemies = [enemy1,enemy2,enemy3];
+const allEnemies = [enemy1, enemy2, enemy3];
 
 /**
  * Event listener for the keyboard. Only certain 
  * keys that corresponds to the arrow key in the keyboar
  * are allowed
  */
-document.addEventListener('keyup', function(e) {
+document.addEventListener('keyup', function (e) {
     const allowedKeys = {
         37: 'left',
         38: 'up',
