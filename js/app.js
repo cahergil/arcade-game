@@ -70,7 +70,7 @@ class Player {
 
         
         if(this.checkCollision()) {
-            
+            console.log('there was a collision,change player position')
             this.x = 200;
             this.y = 450;
         }
@@ -93,7 +93,7 @@ class Player {
                     ( (enemy.x > playerCoordinateX ) && 
                         (enemy.x < playerCoordinateX + playerImg.naturalWidth)
                 ) ) {
-                    //console.log("collision");    
+                    console.log("collision");    
                     isCollision = true;
             //top-left corner collision
             } else if( ( (enemy.y > playerCoordinateY) && 
@@ -102,7 +102,7 @@ class Player {
                         ( (enemy.x > playerCoordinateX) && 
                             (enemy.x < playerCoordinateX + playerImg.naturalWidth) 
                 ) ) {
-                    //console.log("collision"); 
+                    console.log("collision"); 
                     isCollision = true;
             //down-right corner collision        
             } else if ( ( (enemy.x +enemyImg.naturalWidth > playerCoordinateX) && 
@@ -111,7 +111,7 @@ class Player {
                         ( (enemy.y + enemyImg.naturalHeight > playerCoordinateY) && 
                             (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight) 
                     ) ) {
-                    //console.log("collision"); 
+                    console.log("collision"); 
                     isCollision = true;
             //up-right corner collision        
             } else if ( ( (enemy.x + enemyImg.naturalWidth > playerCoordinateX) && 
@@ -120,10 +120,10 @@ class Player {
                         ( (enemy.y > playerCoordinateY) && 
                             (enemy.y < playerCoordinateY + playerImg.naturalHeight)
                     ) ) {
-                    //console.log("collision"); 
+                    console.log("collision"); 
                     isCollision = true;
             }  else {
-                isCollision = false;
+                //isCollision = false;
             }
         
            
@@ -154,7 +154,7 @@ class Player {
                 break;
             case 'up':
         
-                if (this.y - step > 0) {
+                if (this.y - step > 90) {
                     this.moveY = true;
                     this.distance = -step;
                     console.log('up y', this.y);
