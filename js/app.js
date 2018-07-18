@@ -1,4 +1,3 @@
-// Enemies our player must avoid
 class Enemy {
     constructor(x,y) {
         this.x = x;
@@ -10,20 +9,13 @@ class Enemy {
     
     }
     
-    // Update the enemy's position, required method for game
-    // Parameter: dt, a time delta between ticks
     update(dt) {
-     // You should multiply any movement by the dt parameter
-     // which will ensure the game runs at the same speed for
-     // all computers.
-        //console.log(dt);
         this.x +=this.speed*dt;
         if(this.x > 520) {
             this.x = -101;
         }
     }
     
-    // Draw the enemy on the screen, required method for game   
     render() {
         const img = Resources.get(this.sprite);
         ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
@@ -33,9 +25,6 @@ class Enemy {
 }
 
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
 class Player {
     constructor(x,y,lives = 3,score = 0) {
         this.x = x;
@@ -55,13 +44,8 @@ class Player {
         ctx.drawImage(img, this.x, this.y);
     }
     
-    // Update the player position, required method for game
-    // Parameter: dt, a time delta between ticks
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     update() {
-        //console.log(dt);
+
         if ( this.moveX ) {
             this.moveX = false;
             this.x += this.distance; 
@@ -70,8 +54,7 @@ class Player {
             this.moveY = false;
             this.y += this.distance; 
         }
-
-        
+      
         if(this.checkCollision()) {
             console.log('there was a collision,change player position')
             this.lives--;
@@ -125,7 +108,6 @@ class Player {
         const playerCoordinateX = this.x;
         allEnemies.forEach(function(enemy){
             const enemyImg =  Resources.get(enemy.sprite); 
-            //console.log(`width:${img.naturalWidth},height:${img.naturalHeight}`); 
             //down-left corner collision
             if( ( (enemy.y + enemyImg.naturalHeight > playerCoordinateY) && 
                     (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight) ) 
@@ -218,21 +200,17 @@ class Player {
 
 
 
-// Now instantiate your objects.
 
-// Place the player object in a variable called player
 const player = new Player(200, 450);
 
 const enemy1 = new Enemy(10,140);
 const enemy2 = new Enemy(10,220);
 const enemy3 = new Enemy(10,300);
 
-// Place all enemy objects in an array called allEnemies
+
 const allEnemies = [enemy1,enemy2,enemy3];
 
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
     const allowedKeys = {
         37: 'left',
