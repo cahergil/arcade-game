@@ -1,3 +1,4 @@
+let userSelectedPlayer = false;
 /**
  * Eneny class: class for the enemies(bugs)
  * it contains the positions(x,y), the image(sprite)
@@ -45,15 +46,15 @@ class Enemy {
  * 
  */
 class Player {
-    constructor(x, y, lives = 3, score = 0) {
+    constructor(x, y, lives = 3, sprite ='images/char-boy.png', score = 0) {
         this.x = x;
         this.y = y;
-        this.sprite = 'images/char-boy.png';
+        this.sprite = sprite;
         this.moveX = false;
         this.moveY = false;
         this.distance = 0;
-        this.lives = 3;
-        this.score = 0;
+        this.lives = lives;
+        this.score = score;
 
     }
 
@@ -77,6 +78,7 @@ class Player {
             this.y += this.distance;
         }
 
+       
         if (this.checkCollision()) {
             console.log('there was a collision,change player position')
             this.lives--;
@@ -90,7 +92,7 @@ class Player {
             }
             this.gotoInitialPosition();
         }
-
+   
         if (this.reachedWater()) {
 
             this.score += 100;
@@ -257,10 +259,24 @@ class Player {
 
 }
 
-
+//modal functionality
+const modal = document.querySelector('.modal');
+modal.addEventListener('keydown',trapkey);
+let focusableElements = modal.querySelectorAll('img');
+let firstTabStop = focusableElements[0];
+let lastTabStop = focusableElements[focusableElements.length - 1];
+modal.style.display = 'block';
+const modalRectangles = modal.querySelector('.modal-rectangles');
+const rectangles = modalRectangles.querySelectorAll('div');
+for (let i = 0; i <= focusableElements.length-1; i++) {
+     focusableElements[i].onfocus = handleFocus;
+    
+}
+firstTabStop.focus();
 
 // instatiation of the player
 const player = new Player(220, 470);
+
 
 // instantiation of the enemies
 const enemy1 = new Enemy(10, 140);
@@ -269,6 +285,58 @@ const enemy3 = new Enemy(10, 300);
 
 //array of enemies
 const allEnemies = [enemy1, enemy2, enemy3];
+
+
+
+
+function handleFocus(e){
+
+    console.log(e);
+
+    for(let i =0; i <= focusableElements.length - 1;i++) {
+        if( focusableElements[i] === document.activeElement ) {
+            rectangles[i].classList.add('show');
+        } else {
+            rectangles[i].classList.remove('show');
+        }
+    }
+
+}
+
+
+
+function trapkey(e){
+    console.log(e.keyCode);
+    
+    if(e.keyCode == 9) {
+        
+        // SHIFT + TAB
+        if (e.shiftKey) {
+            if (document.activeElement === firstTabStop) {
+                e.preventDefault();
+                lastTabStop.focus();
+            }
+        // TAB
+        } else {
+            if (document.activeElement === lastTabStop) {
+                e.preventDefault();
+                firstTabStop.focus();
+            }
+        }
+    }
+    //ENTER
+    if(e.keyCode == 13) {
+     
+        const el = document.activeElement;
+        player.sprite =el.getAttribute('src');
+        modal.style.display = 'none';
+        userSelectedPlayer = true;
+
+        
+    }
+
+}
+
 
 /**
  * Event listener for the keyboard. Only certain 
