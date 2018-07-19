@@ -113,9 +113,15 @@ body {
 .modal img:focus {
 
     outline: 0;
+    animation-name: moveUpDown;
+    animation-duration: 500ms;
+
    /* border: 1px solid black;*/
 }
-
+@keyframes moveUpDown {
+    50% { transform: translateY(-30px); }
+    100% {transform: translateY(0);}
+}
 
 .modal .modal-rectangles .rectangle {
 
