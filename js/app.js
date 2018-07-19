@@ -1,4 +1,7 @@
 let userSelectedPlayer = false;
+let playerInitialPositionX = 215
+let playerInitialPositionY = 445;
+
 /**
  * Eneny class: class for the enemies(bugs)
  * it contains the positions(x,y), the image(sprite)
@@ -143,8 +146,8 @@ class Player {
      * updates player coordinates to the initial position
      */
     gotoInitialPosition() {
-        this.x = 200;
-        this.y = 450;
+        this.x = playerInitialPositionX;
+        this.y = playerInitialPositionY;
     }
 
     /**
@@ -216,38 +219,39 @@ class Player {
      */
     handleInput(keyCode) {
         const img = Resources.get(this.sprite);
-        const step = 20;
+        const stepVertical = 83;
+        const stepHorizontal = 101;
         switch (keyCode) {
             case 'left':
-                if (this.x - step >= 0) {
+                if (this.x - stepHorizontal >= 0) {
                     this.moveX = true;
-                    this.distance = -step;
+                    this.distance = -stepHorizontal;
                     console.log('left x=', this.x);
                 }
 
                 break;
             case 'right':
 
-                if (this.x + step + img.naturalWidth < ctx.canvas.width) {
+                if (this.x + stepHorizontal + img.naturalWidth < ctx.canvas.width) {
                     this.moveX = true;
-                    this.distance = step;
+                    this.distance = stepHorizontal;
                     console.log('right x', this.x);
                 }
 
                 break;
             case 'up':
 
-                if (this.y - step > 0) {
+                if (this.y - stepVertical > 0) {
                     this.moveY = true;
-                    this.distance = -step;
+                    this.distance = -stepVertical;
                     console.log('up y', this.y);
                 }
                 break;
             case 'down':
 
-                if (this.y + step + img.naturalHeight < 580) {
+                if (this.y + stepVertical + img.naturalHeight < 580) {
                     this.moveY = true;
-                    this.distance = step;
+                    this.distance = stepVertical;
                     console.log('down y', this.y);
 
                 }
@@ -275,7 +279,8 @@ for (let i = 0; i <= focusableElements.length-1; i++) {
 firstTabStop.focus();
 
 // instatiation of the player
-const player = new Player(220, 470);
+//const player = new Player(220, 470);
+const player = new Player(playerInitialPositionX,playerInitialPositionY);
 
 
 // instantiation of the enemies
