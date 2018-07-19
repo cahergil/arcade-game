@@ -91,7 +91,7 @@ class Player {
             this.gotoInitialPosition();
         }
 
-        if (this.reachedWatter()) {
+        if (this.reachedWater()) {
 
             this.score += 100;
             const scoreElement = document.querySelector('.score-item');
@@ -148,12 +148,8 @@ class Player {
     /**
      * check if the player reached the water on the canvas
      */
-    reachedWatter() {
-        if (this.y <= 90) {
-            return true;
-        } else {
-            return false;
-        }
+    reachedWater() {
+           return this.y <= 90? true:false;
     }
 
     /**
@@ -178,7 +174,7 @@ class Player {
                 )) {
                 console.log("collision");
                 isCollision = true;
-                //top-left corner collision
+            //top-left corner collision
             } else if (((enemy.y > playerCoordinateY) &&
                     (enemy.y < playerCoordinateY + playerImg.naturalHeight)) &&
                 ((enemy.x > playerCoordinateX) &&
@@ -186,7 +182,7 @@ class Player {
                 )) {
                 console.log("collision");
                 isCollision = true;
-                //down-right corner collision        
+            //down-right corner collision        
             } else if (((enemy.x + enemyImg.naturalWidth > playerCoordinateX) &&
                     (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
                 ((enemy.y + enemyImg.naturalHeight > playerCoordinateY) &&
@@ -194,7 +190,7 @@ class Player {
                 )) {
                 console.log("collision");
                 isCollision = true;
-                //up-right corner collision        
+            //up-right corner collision        
             } else if (((enemy.x + enemyImg.naturalWidth > playerCoordinateX) &&
                     (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
                 ((enemy.y > playerCoordinateY) &&
@@ -239,7 +235,7 @@ class Player {
                 break;
             case 'up':
 
-                if (this.y - step > 50) {
+                if (this.y - step > 0) {
                     this.moveY = true;
                     this.distance = -step;
                     console.log('up y', this.y);
@@ -264,7 +260,7 @@ class Player {
 
 
 // instatiation of the player
-const player = new Player(200, 450);
+const player = new Player(220, 470);
 
 // instantiation of the enemies
 const enemy1 = new Enemy(10, 140);
