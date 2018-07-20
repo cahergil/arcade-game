@@ -25,6 +25,8 @@ class Enemy {
         this.x += this.speed * dt;
         if (this.x > 520) {
             this.x = -101;
+            this.y = this.getRandomYposition();
+            this.speed = this.getRandomSpeed();
         }
     }
     /**
@@ -34,7 +36,37 @@ class Enemy {
      */
     render() {
         const img = Resources.get(this.sprite);
+        ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
         ctx.drawImage(img, this.x, this.y);
+    }
+
+    getRandomYposition(){
+
+        const number = Math.random();
+        if(number < 0.33) {
+            return 140;
+        } else if (number < 0.66) {
+            return 220;
+        } else {
+            return 300;
+        }
+
+    }
+
+    getRandomSpeed(){
+        //random number between 0 and 2
+        const randomNumber =Math.floor(Math.random() * Math.floor(3));
+        switch (randomNumber) {
+            case 0:
+                return (Math.random() + 1) * 50;
+            case 1:
+                return 140;
+            case 2:
+                return 300;
+            
+        }
+
+
     }
 
 }
@@ -107,19 +139,21 @@ class Player {
     }
 
     /**
+     * render the player according to its position
+     */
+    render() {
+        const img = Resources.get(this.sprite);
+        ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+        ctx.drawImage(img, this.x, this.y);
+    }
+
+    /**
      * check if the player still has lives
      */
     isGameEnded() {
 
         return this.lives < 0;
 
-    }
-    /**
-     * render the player according to its position
-     */
-    render() {
-        const img = Resources.get(this.sprite);
-        ctx.drawImage(img, this.x, this.y);
     }
 
     /**
@@ -285,11 +319,13 @@ const player = new Player(playerInitialPositionX,playerInitialPositionY);
 
 // instantiation of the enemies
 const enemy1 = new Enemy(10, 140);
-const enemy2 = new Enemy(10, 220);
+const enemy2 = new Enemy(-10, 220);
 const enemy3 = new Enemy(10, 300);
+const enemy4 = new Enemy(-200,140);
+const enemy5 = new Enemy(-300,220);
 
 //array of enemies
-const allEnemies = [enemy1, enemy2, enemy3];
+const allEnemies = [enemy1, enemy2, enemy3,enemy4,enemy5];
 
 
 
