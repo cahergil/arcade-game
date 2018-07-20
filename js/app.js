@@ -97,7 +97,7 @@ class Player {
      * updates the position of the player on the canvas.
      * If there were movements in the x or y axis, the x 
      * property of Player gets uddated accordingly by the 
-     * distance(always 20px)
+     * distance.
      * After updating the coordinates, check for a collision with
      * the enemies. If there is a collision the player go to the
      * initial position. It controls also the lives and the score
@@ -297,6 +297,37 @@ class Player {
 
 }
 
+class Gem {
+
+    constructor(x = 0, y = 0 ) {
+        this.x = x;
+        this.y = y;
+        this.sprite = 'images/gem-green.png';
+    }
+    update() {
+
+    }
+
+    render() {
+        const img = Resources.get(this.sprite);
+        ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+        ctx.drawImage(img,this.x,this.y);
+        
+    }
+    static getRandomSprite() {
+        const randomNumber =Math.floor(Math.random() * Math.floor(3)+1);
+        switch(randomNumber) {
+            case 1:
+                return 'images/gem-green.png';
+            case 2: 
+                return 'images/gem-blue.png';
+            case 3:
+                return 'images/gem-orange.png'
+        }
+    }
+}
+
+
 //modal functionality
 const modal = document.querySelector('.modal');
 modal.addEventListener('keydown',trapkey);
@@ -316,7 +347,6 @@ firstTabStop.focus();
 //const player = new Player(220, 470);
 const player = new Player(playerInitialPositionX,playerInitialPositionY);
 
-
 // instantiation of the enemies
 const enemy1 = new Enemy(10, 140);
 const enemy2 = new Enemy(-10, 220);
@@ -327,7 +357,36 @@ const enemy5 = new Enemy(-300,220);
 //array of enemies
 const allEnemies = [enemy1, enemy2, enemy3,enemy4,enemy5];
 
+//array of gems
+//const gem1 = new Gem(25.5,148);
 
+const allGems = [];
+
+for (let row = 0;row<3;row++) {
+    //number between 1-3 for this row
+    const randomNumber =Math.floor(Math.random() * Math.floor(3)+1);
+    let counter =0;
+    for (let col = 0; col<5; col++) {
+        if(counter == randomNumber) {
+            continue;
+        }
+        //number between 1-3
+        const randomYesNo =Math.floor(Math.random() * Math.floor(2)+1);
+        //1 yes, put object into array, 2 skip it
+        if (randomYesNo === 1 ) {
+            //x coordinate 25 = 101/2 - 50/2; 50 is the width of the sprite
+            //y coordinate 148 = 83 + 65; 65 by testing
+            const gem = new Gem(25.5 +(col*101),148 + (row * 83) )
+            gem.sprite = Gem.getRandomSprite();
+            allGems.push(gem);
+            counter++;        
+        }
+
+
+    }
+}
+
+ 
 
 
 function handleFocus(e){
