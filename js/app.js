@@ -3,7 +3,7 @@ let playerInitialPositionX = 215
 let playerInitialPositionY = 445;
 
 /**
- * Eneny class: class for the enemies(bugs)
+ * Enemy class: class for the enemies(bugs)
  * it contains the positions(x,y), the image(sprite)
  * and the speed of the bugs
  */
