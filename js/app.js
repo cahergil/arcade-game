@@ -31,8 +31,6 @@ class Enemy {
     }
     /**
      * draws the sprite on the canvas
-     * 
-     * @return  {[void]}
      */
     render() {
         const img = Resources.get(this.sprite);
@@ -40,6 +38,12 @@ class Enemy {
         ctx.drawImage(img, this.x, this.y);
     }
 
+    /**
+     * Give the enemy a position in three possible rows.
+     * 140 first row of stones
+     * 220 second row of stones
+     * 300 third row of stones
+     */
     getRandomYposition(){
 
         const number = Math.random();
@@ -53,6 +57,9 @@ class Enemy {
 
     }
 
+    /*
+    * Gives the enemy a random speed once it is out of the boundaries of the canvas
+    */   
     getRandomSpeed(){
         //random number between 0 and 2
         const randomNumber =Math.floor(Math.random() * Math.floor(3));
@@ -96,11 +103,13 @@ class Player {
     /**
      * updates the position of the player on the canvas.
      * If there were movements in the x or y axis, the x 
-     * property of Player gets uddated accordingly by the 
+     * property of Player gets updated accordingly by the 
      * distance.
      * After updating the coordinates, check for a collision with
-     * the enemies. If there is a collision the player go to the
-     * initial position. It controls also the lives and the score
+     * the enemies or gems. If there is a collision with enemies,
+     * the player go to the initial position.
+     * It controls also the lives and the score when the player 
+     * reaches a gem or the water.
      */
     update() {
 
@@ -191,14 +200,14 @@ class Player {
      * check if the player reached the water on the canvas
      */
     reachedWater() {
-           return this.y <= 90? true:false;
+           return this.y <= 90 ? true:false;
     }
 
     /**
-     * check for a collision between the player and the enemies. 
-     * This method checks for areas: down left corner, up left corner
+     * check for a collision between the player and the enemies and gems. 
+     * This method checks four areas: down left corner, up left corner
      * down right corner and up right corner. If there is an overlap
-     * between the player's and an the enemy's sprite, it will return
+     * between the player's and an the enemy's or gems' sprite, it will return
      * true, else will return false.
      */
     checkCollision(arrayOfObject) {
@@ -319,6 +328,10 @@ class Player {
 
 }
 
+
+/**
+ * 
+ */
 class Gem {
 
     constructor(x = 0, y = 0 ) {
@@ -326,16 +339,28 @@ class Gem {
         this.y = y;
         this.sprite = 'images/gem-green.png';
     }
+
+    /**
+     * updates the position of gems. Do nothing because gems don't move
+     */
     update() {
 
     }
 
+    /**
+     * draw each gem on the canvas
+     */
     render() {
         const img = Resources.get(this.sprite);
-      //  ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+        //ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
         ctx.drawImage(img,this.x,this.y);
         
     }
+
+    /**
+     * static method that returns a different gem sprite: green, blue or orange
+     * based on a random number
+     */
     static getRandomSprite() {
         const randomNumber =Math.floor(Math.random() * Math.floor(3)+1);
         switch(randomNumber) {
@@ -429,7 +454,10 @@ function handleFocus(e){
 }
 
 
-
+/**
+ * inside de modal to chose a player, controls the focus of each image
+ * using the trap pattern. If the player hits enter, the game starts.
+ */
 function trapkey(e){
     console.log(e.keyCode);
     
