@@ -21,6 +21,7 @@ body {
 
     font-size: 30px;
     font-family: 'Coda Caption', sans-serif;
+    
 
 }
 
@@ -28,8 +29,6 @@ body {
 .container .score-item {
 
     text-align: left;
-    display: inline-block;
-    min-width: 70px;
     color: blue;
 
 }
@@ -48,9 +47,10 @@ body {
 }
 
 
-.container .score-lives {
+.container .lives-label {
 
-    color: black;;
+    color: black;
+  
 
 }
 
