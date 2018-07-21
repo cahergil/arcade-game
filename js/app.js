@@ -130,7 +130,10 @@ class Player {
                 const livesElement = document.querySelector('.lives-item');
                 livesElement.innerHTML = this.lives;
             } else {
-                alert(`game finished, you got ${this.score}!!`);
+                //alert(`game finished, you got ${this.score}!!`);
+                //runGame = false;
+                document.querySelector('.final-score').innerHTML = this.score;
+                modalEndGame.style.display = 'block';
                 this.resetLives();
                 this.resetScore();
                 initializeGems();
@@ -390,6 +393,13 @@ for (let i = 0; i <= focusableElements.length-1; i++) {
 }
 firstTabStop.focus();
 
+
+
+
+//modal-end-game functionality
+const modalEndGame = document.querySelector('.modal-end-game');
+
+
 // instatiation of the player
 //const player = new Player(220, 470);
 const player = new Player(playerInitialPositionX,playerInitialPositionY);
@@ -482,6 +492,7 @@ function trapkey(e){
      
         const el = document.activeElement;
         player.sprite =el.getAttribute('src');
+        modal.removeEventListener('keydown',trapkey);
         modal.style.display = 'none';
         runGame = true;
 
@@ -506,3 +517,5 @@ document.addEventListener('keyup', function (e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+
