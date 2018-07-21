@@ -1,4 +1,4 @@
-let userSelectedPlayer = false;
+let runGame = false;
 let playerInitialPositionX = 215;
 let playerInitialPositionY = 445;
 
@@ -483,7 +483,7 @@ function trapkey(e){
         const el = document.activeElement;
         player.sprite =el.getAttribute('src');
         modal.style.display = 'none';
-        userSelectedPlayer = true;
+        runGame = true;
 
         
     }
