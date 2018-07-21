@@ -40,6 +40,6 @@ SOFTWARE.
 <br><br>
 
 <p align="center">
-<img width="420" src="img/udacity_logo.svg">
+<img width="420" src="images/udacity_logo.svg">
 </p>
 
