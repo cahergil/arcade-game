@@ -1,5 +1,5 @@
 let userSelectedPlayer = false;
-let playerInitialPositionX = 215
+let playerInitialPositionX = 215;
 let playerInitialPositionY = 445;
 
 /**
@@ -124,7 +124,7 @@ class Player {
 
        
         if (this.checkCollision(allEnemies)) {
-            console.log('there was a collision,change player position')
+            console.log('there was a collision,change player position');
             this.lives--;
             if (!this.isGameEnded()) {
                 const livesElement = document.querySelector('.lives-item');
@@ -144,7 +144,7 @@ class Player {
         if (this.reachedWater()) {
 
             this.score += 100;
-            document.querySelector('.score-item').innerHTML = this.score
+            document.querySelector('.score-item').innerHTML = this.score;
             this.gotoInitialPosition();
         }
 
@@ -369,7 +369,7 @@ class Gem {
             case 2: 
                 return 'images/gem-blue.png';
             case 3:
-                return 'images/gem-orange.png'
+                return 'images/gem-orange.png';
         }
     }
 }
@@ -428,7 +428,7 @@ function initializeGems() {
             if (randomYesNo === 1 ) {
                 //x coordinate 25 = 101/2 - 50/2; 50 is the width of the sprite
                 //y coordinate 148 = 83 + 65; 65 by testing
-                const gem = new Gem(25.5 +(col*101),148 + (row * 83) )
+                const gem = new Gem(25.5 +(col*101),148 + (row * 83) );
                 gem.sprite = Gem.getRandomSprite();
                 allGems.push(gem);
                 counter++;        
