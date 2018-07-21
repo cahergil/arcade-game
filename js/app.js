@@ -36,7 +36,7 @@ class Enemy {
      */
     render() {
         const img = Resources.get(this.sprite);
-        ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+       // ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
         ctx.drawImage(img, this.x, this.y);
     }
 
@@ -114,7 +114,7 @@ class Player {
         }
 
        
-        if (this.checkCollision()) {
+        if (this.checkCollision(allEnemies)) {
             console.log('there was a collision,change player position')
             this.lives--;
             if (!this.isGameEnded()) {
@@ -124,15 +124,18 @@ class Player {
                 alert(`game finished, you got ${this.score}!!`);
                 this.resetLives();
                 this.resetScore();
+                initializeGems();
             }
             this.gotoInitialPosition();
         }
-   
+        if(this.checkCollision(allGems)) {
+            this.score += 200;        
+            document.querySelector('.score-item').innerHTML = this.score;
+        }
         if (this.reachedWater()) {
 
             this.score += 100;
-            const scoreElement = document.querySelector('.score-item');
-            scoreElement.innerHTML = this.score;
+            document.querySelector('.score-item').innerHTML = this.score
             this.gotoInitialPosition();
         }
 
@@ -143,7 +146,7 @@ class Player {
      */
     render() {
         const img = Resources.get(this.sprite);
-        ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+      //  ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
         ctx.drawImage(img, this.x, this.y);
     }
 
@@ -198,45 +201,64 @@ class Player {
      * between the player's and an the enemy's sprite, it will return
      * true, else will return false.
      */
-    checkCollision() {
+    checkCollision(arrayOfObject) {
         let isCollision = false;
         const playerImg = Resources.get(this.sprite);
         const playerCoordinateY = this.y;
         const playerCoordinateX = this.x;
-        allEnemies.forEach(function (enemy) {
-            const enemyImg = Resources.get(enemy.sprite);
+        arrayOfObject.forEach(function (object) {
+            const enemyImg = Resources.get(object.sprite);
             //down-left corner collision
-            if (((enemy.y + enemyImg.naturalHeight > playerCoordinateY) &&
-                    (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight)) &&
-                ((enemy.x > playerCoordinateX) &&
-                    (enemy.x < playerCoordinateX + playerImg.naturalWidth)
+            if (((object.y + enemyImg.naturalHeight > playerCoordinateY) &&
+                    (object.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight)) &&
+                ((object.x > playerCoordinateX) &&
+                    (object.x < playerCoordinateX + playerImg.naturalWidth)
                 )) {
                 console.log("collision");
                 isCollision = true;
+                if(object instanceof Gem) {
+                    object.x = -9999;
+                    console.log("collision with gem");
+                }
             //top-left corner collision
-            } else if (((enemy.y > playerCoordinateY) &&
-                    (enemy.y < playerCoordinateY + playerImg.naturalHeight)) &&
-                ((enemy.x > playerCoordinateX) &&
-                    (enemy.x < playerCoordinateX + playerImg.naturalWidth)
+            } else if (((object.y > playerCoordinateY) &&
+                    (object.y < playerCoordinateY + playerImg.naturalHeight)) &&
+                ((object.x > playerCoordinateX) &&
+                    (object.x < playerCoordinateX + playerImg.naturalWidth)
                 )) {
                 console.log("collision");
                 isCollision = true;
+                if(object instanceof Gem) {
+                    object.x = -9999;
+                    console.log("collision with gem");
+
+                }
             //down-right corner collision        
-            } else if (((enemy.x + enemyImg.naturalWidth > playerCoordinateX) &&
-                    (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
-                ((enemy.y + enemyImg.naturalHeight > playerCoordinateY) &&
-                    (enemy.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight)
+            } else if (((object.x + enemyImg.naturalWidth > playerCoordinateX) &&
+                    (object.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
+                ((object.y + enemyImg.naturalHeight > playerCoordinateY) &&
+                    (object.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight)
                 )) {
                 console.log("collision");
                 isCollision = true;
+                if(object instanceof Gem) {
+                    object.x = -9999;
+                    console.log("collision with gem");
+
+                }
             //up-right corner collision        
-            } else if (((enemy.x + enemyImg.naturalWidth > playerCoordinateX) &&
-                    (enemy.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
-                ((enemy.y > playerCoordinateY) &&
-                    (enemy.y < playerCoordinateY + playerImg.naturalHeight)
+            } else if (((object.x + enemyImg.naturalWidth > playerCoordinateX) &&
+                    (object.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
+                ((object.y > playerCoordinateY) &&
+                    (object.y < playerCoordinateY + playerImg.naturalHeight)
                 )) {
                 console.log("collision");
                 isCollision = true;
+                if(object instanceof Gem) {
+                    object.x = -9999;
+                    console.log("collision with gem");
+
+                }
             } else {
                 //isCollision = false;
             }
@@ -310,7 +332,7 @@ class Gem {
 
     render() {
         const img = Resources.get(this.sprite);
-        ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+      //  ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
         ctx.drawImage(img,this.x,this.y);
         
     }
@@ -360,34 +382,37 @@ const allEnemies = [enemy1, enemy2, enemy3,enemy4,enemy5];
 //array of gems
 //const gem1 = new Gem(25.5,148);
 
-const allGems = [];
+let allGems;
 
-for (let row = 0;row<3;row++) {
-    //number between 1-3 for this row
-    const randomNumber =Math.floor(Math.random() * Math.floor(3)+1);
-    let counter =0;
-    for (let col = 0; col<5; col++) {
-        if(counter == randomNumber) {
-            continue;
-        }
-        //number between 1-3
-        const randomYesNo =Math.floor(Math.random() * Math.floor(2)+1);
-        //1 yes, put object into array, 2 skip it
-        if (randomYesNo === 1 ) {
-            //x coordinate 25 = 101/2 - 50/2; 50 is the width of the sprite
-            //y coordinate 148 = 83 + 65; 65 by testing
-            const gem = new Gem(25.5 +(col*101),148 + (row * 83) )
-            gem.sprite = Gem.getRandomSprite();
-            allGems.push(gem);
-            counter++;        
-        }
-
-
-    }
-}
+initializeGems();
 
  
-
+function initializeGems() {
+    allGems = []; 
+    for (let row = 0;row<3;row++) {
+        //number between 1-3 for this row
+        const randomNumber =Math.floor(Math.random() * Math.floor(3)+1);
+        let counter =0;
+        for (let col = 0; col<5; col++) {
+            if(counter == randomNumber) {
+                continue;
+            }
+            //number between 1-3
+            const randomYesNo =Math.floor(Math.random() * Math.floor(2)+1);
+            //1 yes, put object into array, 2 skip it
+            if (randomYesNo === 1 ) {
+                //x coordinate 25 = 101/2 - 50/2; 50 is the width of the sprite
+                //y coordinate 148 = 83 + 65; 65 by testing
+                const gem = new Gem(25.5 +(col*101),148 + (row * 83) )
+                gem.sprite = Gem.getRandomSprite();
+                allGems.push(gem);
+                counter++;        
+            }
+    
+    
+        }
+    }
+}
 
 function handleFocus(e){
 
