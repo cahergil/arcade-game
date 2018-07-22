@@ -34,7 +34,7 @@ class Enemy {
      */
     render() {
         const img = Resources.get(this.sprite);
-       // ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+        //ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
         ctx.drawImage(img, this.x, this.y);
     }
 
@@ -158,7 +158,7 @@ class Player {
      */
     render() {
         const img = Resources.get(this.sprite);
-      //  ctx.strokeRect(this.x,this.y,img.naturalWidth,img.naturalHeight);
+        //ctx.strokeRect(this.x+17,this.y+17,img.naturalWidth-17,img.naturalHeight-17);
         ctx.drawImage(img, this.x, this.y);
     }
 
@@ -216,15 +216,17 @@ class Player {
     checkCollision(arrayOfObject) {
         let isCollision = false;
         const playerImg = Resources.get(this.sprite);
-        const playerCoordinateY = this.y;
-        const playerCoordinateX = this.x;
+        const playerWidth = playerImg.naturalWidth - 17;
+        const playerHeight = playerImg.naturalHeight - 17;
+        const playerCoordinateY = this.y + 17;
+        const playerCoordinateX = this.x + 17;
         arrayOfObject.forEach(function (object) {
             const enemyImg = Resources.get(object.sprite);
             //down-left corner collision
             if (((object.y + enemyImg.naturalHeight > playerCoordinateY) &&
-                    (object.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight)) &&
+                    (object.y + enemyImg.naturalHeight < playerCoordinateY + playerHeight)) &&
                 ((object.x > playerCoordinateX) &&
-                    (object.x < playerCoordinateX + playerImg.naturalWidth)
+                    (object.x < playerCoordinateX + playerWidth)
                 )) {
                 console.log("collision");
                 isCollision = true;
@@ -234,9 +236,9 @@ class Player {
                 }
             //top-left corner collision
             } else if (((object.y > playerCoordinateY) &&
-                    (object.y < playerCoordinateY + playerImg.naturalHeight)) &&
+                    (object.y < playerCoordinateY + playerHeight)) &&
                 ((object.x > playerCoordinateX) &&
-                    (object.x < playerCoordinateX + playerImg.naturalWidth)
+                    (object.x < playerCoordinateX + playerWidth)
                 )) {
                 console.log("collision");
                 isCollision = true;
@@ -247,9 +249,9 @@ class Player {
                 }
             //down-right corner collision        
             } else if (((object.x + enemyImg.naturalWidth > playerCoordinateX) &&
-                    (object.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
+                    (object.x + enemyImg.naturalWidth < playerCoordinateX + playerWidth)) &&
                 ((object.y + enemyImg.naturalHeight > playerCoordinateY) &&
-                    (object.y + enemyImg.naturalHeight < playerCoordinateY + playerImg.naturalHeight)
+                    (object.y + enemyImg.naturalHeight < playerCoordinateY + playerHeight)
                 )) {
                 console.log("collision");
                 isCollision = true;
@@ -260,9 +262,9 @@ class Player {
                 }
             //up-right corner collision        
             } else if (((object.x + enemyImg.naturalWidth > playerCoordinateX) &&
-                    (object.x + enemyImg.naturalWidth < playerCoordinateX + playerImg.naturalWidth)) &&
+                    (object.x + enemyImg.naturalWidth < playerCoordinateX + playerWidth)) &&
                 ((object.y > playerCoordinateY) &&
-                    (object.y < playerCoordinateY + playerImg.naturalHeight)
+                    (object.y < playerCoordinateY + playerHeight)
                 )) {
                 console.log("collision");
                 isCollision = true;
