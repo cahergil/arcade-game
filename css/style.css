@@ -1,5 +1,16 @@
+@font-face {
+
+    font-family: "ARCADECLASSIC";
+    src: url(../fonts/ARCADECLASSIC.TTF);
+
+}
+
+
 body {
+
     text-align: center;
+    font-family: "ARCADECLASSIC";
+
 }
 
 
@@ -20,8 +31,6 @@ body {
 .container .box {
 
     font-size: 30px;
-    font-family: 'Coda Caption', sans-serif;
-    
 
 }
 
