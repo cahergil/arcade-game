@@ -134,17 +134,15 @@ class Player {
             console.log('there was a collision,change player position');
             this.lives--;
             globalLives = this.lives;
-            if (!this.isGameEnded()) {
-
-            } else {
-                //alert(`game finished, you got ${this.score}!!`);
-                //runGame = false;
+            if (this.isGameEnded()) {
+                howlerObject.playEndGameSound();
                 document.querySelector('.final-score').innerHTML = this.score;
                 modalEndGame.style.display = 'block';
+               
                 this.resetLives();
                 this.resetScore();
                 initializeGems();
-            }
+            } 
             this.gotoInitialPosition();
         }
         if(this.checkCollision(allGems)) {
@@ -158,6 +156,9 @@ class Player {
             globalScore = this.score;
             globalLevel += 1;
             this.gotoInitialPosition();
+            howlerObject.playReachedWaterSound();
+            initializeGems();
+            
         }
 
     }
@@ -240,7 +241,11 @@ class Player {
                 isCollision = true;
                 if(object instanceof Gem) {
                     object.x = -9999;
+                    howlerObject.playGetGemSound();
+
                     console.log("collision with gem");
+                } else {
+                    howlerObject.playCollisionWithBugSound();
                 }
             //top-left corner collision
             } else if (((object.y > playerCoordinateY) &&
@@ -253,7 +258,9 @@ class Player {
                 if(object instanceof Gem) {
                     object.x = -9999;
                     console.log("collision with gem");
-
+                    howlerObject.playGetGemSound();
+                } else {
+                    howlerObject.playCollisionWithBugSound();
                 }
             //down-right corner collision        
             } else if (((object.x + enemyImg.naturalWidth > playerCoordinateX) &&
@@ -266,7 +273,9 @@ class Player {
                 if(object instanceof Gem) {
                     object.x = -9999;
                     console.log("collision with gem");
-
+                    howlerObject.playGetGemSound();
+                } else {
+                    howlerObject.playCollisionWithBugSound();
                 }
             //up-right corner collision        
             } else if (((object.x + enemyImg.naturalWidth > playerCoordinateX) &&
@@ -279,7 +288,9 @@ class Player {
                 if(object instanceof Gem) {
                     object.x = -9999;
                     console.log("collision with gem");
-
+                    howlerObject.playGetGemSound();
+                } else {
+                    howlerObject.playCollisionWithBugSound();
                 }
             } else {
                 //isCollision = false;
@@ -387,7 +398,41 @@ class Gem {
     }
 }
 
+class HowlerSounds {
 
+    constructor() {
+        this.gems = new Howl({
+            src: ['../sounds/gem.mp3']
+          });
+        this.reachedWater = new Howl({
+            src: ['../sounds/points.mp3']
+        });  
+        this.punch = new Howl({
+            src: ['../sounds/punch.mp3']
+        });  
+        this.endGame = new Howl({
+            src: ['../sounds/achievement.mp3']
+        });  
+        this.select = new Howl({
+            src: ['../sounds/select.mp3']
+        });  
+    }
+    playGetGemSound() {
+        return this.gems.play();
+    }
+    playReachedWaterSound(){
+        return this.reachedWater.play();
+    }
+    playCollisionWithBugSound(){
+        return this.punch.play();
+    }
+    playEndGameSound() {
+        return this.endGame.play();
+    }
+    playSelectSound() {
+        return this.select.play();
+    }
+}
 //modal functionality
 const modal = document.querySelector('.modal');
 modal.addEventListener('keydown',trapkey);
@@ -458,6 +503,10 @@ function initializeGems() {
     }
 }
 
+//create Howler class
+const howlerObject = new HowlerSounds();
+
+
 function handleFocus(e){
 
     console.log(e);
@@ -465,6 +514,7 @@ function handleFocus(e){
     for(let i =0; i <= focusableElements.length - 1;i++) {
         if( focusableElements[i] === document.activeElement ) {
             rectangles[i].classList.add('show');
+            
         } else {
             rectangles[i].classList.remove('show');
         }
@@ -503,6 +553,7 @@ function trapkey(e){
         player.sprite =el.getAttribute('src');
         modal.removeEventListener('keydown',trapkey);
         modal.style.display = 'none';
+        howlerObject.playSelectSound();
         runGame = true;
 
         
