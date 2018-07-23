@@ -2,6 +2,13 @@ let runGame = false;
 let playerInitialPositionX = 215;
 let playerInitialPositionY = 445;
 
+//global variables to use in engine.js for building the score panel
+let globalScore = 0;
+let globalLives = 3;
+let globalLevel = 1;
+let globalGems = 0;
+
+
 /**
  * Enemy class: class for the enemies(bugs)
  * it contains the positions(x,y), the image(sprite)
@@ -126,9 +133,9 @@ class Player {
         if (this.checkCollision(allEnemies)) {
             console.log('there was a collision,change player position');
             this.lives--;
+            globalLives = this.lives;
             if (!this.isGameEnded()) {
-                const livesElement = document.querySelector('.lives-item');
-                livesElement.innerHTML = this.lives;
+
             } else {
                 //alert(`game finished, you got ${this.score}!!`);
                 //runGame = false;
@@ -141,13 +148,15 @@ class Player {
             this.gotoInitialPosition();
         }
         if(this.checkCollision(allGems)) {
-            this.score += 200;        
-            document.querySelector('.score-item').innerHTML = this.score;
+            this.score += 200;
+            globalScore = this.score; 
+            globalGems++;       
         }
         if (this.reachedWater()) {
 
             this.score += 100;
-            document.querySelector('.score-item').innerHTML = this.score;
+            globalScore = this.score;
+            globalLevel += 1;
             this.gotoInitialPosition();
         }
 
@@ -176,9 +185,9 @@ class Player {
      * property of the player 
      */
     resetLives() {
-        const livesElement = document.querySelector('.lives-item');
-        livesElement.innerHTML = 3;
+       
         this.lives = 3;
+
     }
 
     /**
@@ -186,8 +195,7 @@ class Player {
      * property of the player 
      */
     resetScore() {
-        const scoreElement = document.querySelector('.score-item');
-        scoreElement.innerHTML = 0;
+        
         this.score = 0;
     }
 
@@ -394,7 +402,6 @@ for (let i = 0; i <= focusableElements.length-1; i++) {
     
 }
 firstTabStop.focus();
-
 
 
 

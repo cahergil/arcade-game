@@ -108,6 +108,8 @@ var Engine = (function(global) {
      * they are just drawing the entire screen over and over.
      */
     function render() {
+
+        
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
@@ -141,7 +143,24 @@ var Engine = (function(global) {
                 ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
+        ctx.fillStyle = 'rgba(0,0,0,0.8)';
+        ctx.fillRect(0,10,canvas.width,43);
 
+        ctx.fillStyle = 'white';
+        ctx.font ='30px ARCADECLASSIC';
+        ctx.fillText(`Level ${globalLevel}`,10,43);
+
+        const imgHeart = Resources.get('images/heart-score.png');
+        ctx.drawImage(imgHeart,150,43 - imgHeart.naturalHeight + 4);
+        ctx.fillText(`x ${globalLives}`,180,43);
+
+        const imgGem = Resources.get('images/gem-score.png');
+        ctx.drawImage(imgGem,250,43 - imgGem.naturalHeight+4); //width 26px height 28px
+        ctx.fillText(`x ${globalGems}`,280,43);
+
+        // ctx.textAlign = 'right'; 
+        ctx.fillText(`${globalScore}`,400,43);
+        
         renderEntities();
     }
 
@@ -189,7 +208,9 @@ var Engine = (function(global) {
         'images/char-princess-girl.png',
         'images/gem-blue.png',
         'images/gem-green.png',
-        'images/gem-orange.png'
+        'images/gem-orange.png',
+        'images/gem-score.png',
+        'images/heart-score.png'
 
     ]);
     Resources.onReady(init);
