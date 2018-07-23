@@ -14,8 +14,35 @@ body {
 }
 
 
+.container {
+
+    width: 505px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
 
 
+.container .title {
+
+    font-size: 50px;
+    padding-left:75px;
+    -webkit-text-stroke-color:green;
+    -webkit-text-stroke-width: 2px;
+    position: relative;
+
+}
+
+
+.container .music {
+
+    float:right;
+    padding-top: 15px;
+    cursor:pointer;
+    min-width: 75px;
+    text-align: right;
+
+}
 
 
 
@@ -53,7 +80,7 @@ body {
     font-size: 30px;
     position: absolute;
     top: 150px;
-    left: 420px;
+    left: 360px;
 
 }
 
@@ -188,7 +215,7 @@ body {
 
 .modal-end-game .container-end-game .final-score {
 
-    color: teal;
+    color:green;
 
 }
 

@@ -4,9 +4,13 @@ let playerInitialPositionY = 445;
 
 //global variables to use in engine.js for building the score panel
 let globalScore = 0;
-let globalLives = 3;
+let globalLives = 5;
 let globalLevel = 1;
 let globalGems = 0;
+
+const enemyRow1 = 140;
+const enemyRow2 = 220;
+const enemyRow3 = 300;
 
 
 /**
@@ -30,7 +34,7 @@ class Enemy {
      */
     update(dt) {
         this.x += this.speed * dt;
-        if (this.x > 520) {
+        if (this.x > 620) {
             this.x = -101;
             this.y = this.getRandomYposition();
             this.speed = this.getRandomSpeed();
@@ -55,11 +59,11 @@ class Enemy {
 
         const number = Math.random();
         if(number < 0.33) {
-            return 140;
+            return enemyRow1;
         } else if (number < 0.66) {
-            return 220;
+            return enemyRow2;
         } else {
-            return 300;
+            return enemyRow3;
         }
 
     }
@@ -95,7 +99,7 @@ class Enemy {
  * 
  */
 class Player {
-    constructor(x, y, lives = 3, sprite ='images/char-boy.png', score = 0) {
+    constructor(x, y, lives = 5, sprite ='images/char-boy.png', score = 0) {
         this.x = x;
         this.y = y;
         this.sprite = sprite;
@@ -158,6 +162,7 @@ class Player {
             this.gotoInitialPosition();
             howlerObject.playReachedWaterSound();
             initializeGems();
+            initializeEnemies(globalLevel);
             
         }
 
@@ -414,8 +419,16 @@ class HowlerSounds {
             src: ['../sounds/achievement.mp3']
         });  
         this.select = new Howl({
-            src: ['../sounds/select.mp3']
+            src: ['../sounds/select.mp3'],
+            onend: function (){
+                
+            }
         });  
+        this.backgroundMusic = new Howl({
+            src: ['../sounds/LukHash_pixel_my_heart_trimmed.mp3'],
+            loop: true,
+            volume: 0.2
+        });
     }
     playGetGemSound() {
         return this.gems.play();
@@ -431,6 +444,12 @@ class HowlerSounds {
     }
     playSelectSound() {
         return this.select.play();
+    }
+    playBackgroundMusic() {
+        return this.backgroundMusic.play();
+    }
+    pauseBackgroundMusic() {
+        return this.backgroundMusic.pause();
     }
 }
 //modal functionality
@@ -452,30 +471,49 @@ firstTabStop.focus();
 
 //modal-end-game functionality
 const modalEndGame = document.querySelector('.modal-end-game');
-
+const toggleMusic = document.querySelector('.music');
+toggleMusic.addEventListener('click',handleToggleMusic);
 
 // instatiation of the player
 //const player = new Player(220, 470);
 const player = new Player(playerInitialPositionX,playerInitialPositionY);
 
-// instantiation of the enemies
-const enemy1 = new Enemy(10, 140);
-const enemy2 = new Enemy(-10, 220);
-const enemy3 = new Enemy(10, 300);
-const enemy4 = new Enemy(-200,140);
-const enemy5 = new Enemy(-300,220);
-
 //array of enemies
-const allEnemies = [enemy1, enemy2, enemy3,enemy4,enemy5];
+const allEnemies = [new Enemy(-100,enemyRow1),new Enemy(-40,enemyRow2)];
+initializeEnemies(globalLevel);
 
-//array of gems
-//const gem1 = new Gem(25.5,148);
+
+
 
 let allGems;
-
 initializeGems();
 
- 
+
+//create Howler class
+const howlerObject = new HowlerSounds();
+
+
+
+function initializeEnemies(level) {
+
+    if (level >= 3 && level <= 4) {
+        if (Math.random() >= 0.60) {
+            allEnemies.push(new Enemy(-70, enemyRow1),new Enemy(-60, enemyRow2));
+        }
+    } else if (level > 4 && level <= 8) {
+        if (Math.random() >= 0.60) {
+            allEnemies.push(new Enemy(-100, enemyRow3));
+        }
+    } else if (level >8) {
+        if (Math.random() >= 0.70) {
+            allEnemies.push(new Enemy(-200, enemyRow3));
+        }
+
+    }
+
+
+}
+
 function initializeGems() {
     allGems = []; 
     for (let row = 0;row<3;row++) {
@@ -503,8 +541,6 @@ function initializeGems() {
     }
 }
 
-//create Howler class
-const howlerObject = new HowlerSounds();
 
 
 function handleFocus(e){
@@ -554,6 +590,7 @@ function trapkey(e){
         modal.removeEventListener('keydown',trapkey);
         modal.style.display = 'none';
         howlerObject.playSelectSound();
+        howlerObject.playBackgroundMusic();
         runGame = true;
 
         
@@ -578,4 +615,15 @@ document.addEventListener('keyup', function (e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+function handleToggleMusic(){
+    if(toggleMusic.innerHTML === 'music on') {
+        toggleMusic.innerHTML = 'music off';
+        howlerObject.pauseBackgroundMusic();
+    } else {
+        toggleMusic.innerHTML = 'music on';
+        howlerObject.playBackgroundMusic();
+    }
+     
 
+
+}
