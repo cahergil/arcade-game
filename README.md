@@ -16,12 +16,12 @@ This is the third project of the Front-End Web Developer Nanodegree. The task wa
 3. After installing this extension, type in the browser `chrome://apps` and it will list your installed app. 
 <img src="images/chrome-app.png">
 
-4. Click on it to open the app. Select the folder of the proyect, start the server and go to the provided http directions:
+4. Click on the extension to open the app. Select the folder of the proyect, start the server and go to the provided http directions:
 <img src="images/app-config.png">
 
 ## How to play
 
-Use the arrow key; up, right, down, left to move the hero. The player starts with 6 lives and each collision with a bug reduce the number of lives by one and will position the hero to the start position. The capture of a gem gives the player 200 points. As the hero reaches the water, it gets 100 points, go to the initial position,new gems are layed out on the canvas, and the level increases by 1. New bugs are added to the game as the user passes levels, increasing thus the difficulty of the game.
+Use the arrow keys; up, right, down, left to move the hero. The player starts with 6 lives, each collision with a bug reduces the number of lives by one and the hero will be positioned at the start point. The capture of a gem gives the player 200 points. As the hero reaches the water, it gets 100 points, go to the initial position,new gems are layed out on the canvas, and the level increases by 1. New bugs are added to the game as the user passes levels, increasing thus the difficulty of the game.
 
 ## Resources
 
