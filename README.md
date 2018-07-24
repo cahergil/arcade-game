@@ -23,11 +23,13 @@ This is the third project of the Front-End Web Developer Nanodegree. The task wa
 
 Use the arrow keys; up, right, down, left to move the hero. The player starts with 6 lives, each collision with a bug reduces the number of lives by one and the hero will be positioned at the start point. The capture of a gem gives the player 200 points. As the hero reaches the water, it gets 100 points, go to the initial position,new gems are layed out on the canvas, and the level increases by 1. New bugs are added to the game as the user passes levels, increasing thus the difficulty of the game.
 
-## Resources
+
 
 ## Attributions
 
 Thanks to Udacity for providing engine.js and resource.js. The original source code can be found at [frontend-nanodegree-arcade-game](https://github.com/udacity/frontend-nanodegree-arcade-game)
+
+## Resources
 
 ###### Web Font
 
