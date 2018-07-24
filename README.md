@@ -1,17 +1,40 @@
 # Memory Game Project
 
-This is the third project of the Front-End Web Developer Nanodegree. This project is about building an arcade game clone. The technologies used for the project are the following:
+This is the third project of the Front-End Web Developer Nanodegree. The task was to recreate the classic arcade game Frogger with provided visual assets and a game loop engine by adding a number of entities to the game including player characters, enemies and collectable items. The technologies used for the project are the following:
 - Object Oriented JavaScript
 - Css3
-- Html5 canvas
+- Html5 & canvas
 
-
-
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
-
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
 
 ## Getting Started
+
+1. Clone this repo or download it
+`$ git clone https://github.com/cahergil/arcade-game.git `
+
+2. Install [200 Ok Web Server for Chrome]( https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=en)
+
+3. After installing this extension, type in the browser `chrome://apps` and it will list your installed app. 
+<img src="images/chrome-app.png">
+
+4. Click on it to open the app. Select the folder of the proyect, start the server and go to the provided http directions:
+<img src="images/app-config.png">
+
+## How to play
+
+Use the arrow key; up, right, down, left to move the hero. The player starts with 6 lives and each collision with a bug reduce the number of lives by one and will position the hero to the start position. The capture of a gem gives the player 200 points. As the hero reaches the water, it gets 100 points, go to the initial position,new gems are layed out on the canvas, and the level increases by 1. New bugs are added to the game as the user passes levels, increasing thus the difficulty of the game.
+
+## Resources
+
+
+###### Web Font
+
+- [Classic Arcade Style Font](http://www.dafont.com/arcade-classic-pizz.font) By Pizzadude
+
+###### Sound Effects
+
+- [Howler.js: Web Audio JavaScript Library](https://github.com/goldfire/howler.js)
+- [Sound Bible: Sound effecs library](http://soundbible.com/free-sound-effects-1.html)
+
 
 
 ## License
