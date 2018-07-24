@@ -9,10 +9,13 @@
 body {
 
     text-align: center;
-    font-family: "ARCADECLASSIC";
-
+    font-family: "ARCADECLASSIC"; 
+    
 }
 
+/*
+* Styles title and music on/off
+*/
 
 .container {
 
@@ -45,19 +48,9 @@ body {
 }
 
 
-
-
-
-
-
-
-
-
-
 /*
 * Styles for the modal dialog box
 */
-
 .modal {
 
     width: 100%;
@@ -115,13 +108,11 @@ body {
     animation-name: moveUpDown;
     animation-duration: 500ms;
 
-   /* border: 1px solid black;*/
 }
 @keyframes moveUpDown {
     50% { transform: translateY(-30px); }
     100% {transform: translateY(0);}
 }
-
 
 
 .modal .modal-rectangles .rectangle {
@@ -141,6 +132,7 @@ body {
     display: block;
 
 }
+
 
 .modal .modal-rectangles .rectangle-one {
    
@@ -201,14 +193,15 @@ body {
     
 }
 
-
+/*
+* Styles for end-game modal
+*/
 .modal-end-game .container-end-game {
    
-    top: 200px;
-    left: 500px;
-    width: 450px;
-    height: 300px;
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
 
 } 
 

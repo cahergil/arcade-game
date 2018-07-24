@@ -2,7 +2,7 @@ let runGame = false;
 let playerInitialPositionX = 215;
 let playerInitialPositionY = 445;
 
-//global variables to use in engine.js for building the score panel
+//Global variables to use in engine.js for building the score panel
 let globalScore = 0;
 let globalLives = 5;
 let globalLevel = 1;
@@ -30,7 +30,7 @@ class Enemy {
     }
 
     /**
-     * updates the position of the object on the canvas
+     * Updates the position of the object on the canvas
      */
     update(dt) {
         this.x += this.speed * dt;
@@ -41,7 +41,7 @@ class Enemy {
         }
     }
     /**
-     * draws the sprite on the canvas
+     * Draws the sprite on the canvas
      */
     render() {
         const img = Resources.get(this.sprite);
@@ -90,7 +90,7 @@ class Enemy {
 }
 
 /**
- * class for the player. 
+ * Class for the player. 
  * x and y are the properties for the position on the canvas
  * sprite is the image for the player to display. the 'move'
  * properties indicate whether the player made valid move
@@ -112,7 +112,7 @@ class Player {
     }
 
     /**
-     * updates the position of the player on the canvas.
+     * Updates the position of the player on the canvas.
      * If there were movements in the x or y axis, the x 
      * property of Player gets updated accordingly by the 
      * distance.
@@ -169,7 +169,7 @@ class Player {
     }
 
     /**
-     * render the player according to its position
+     * Render the player according to its position
      */
     render() {
         const img = Resources.get(this.sprite);
@@ -178,7 +178,7 @@ class Player {
     }
 
     /**
-     * check if the player still has lives
+     * Check if the player still has lives
      */
     isGameEnded() {
 
@@ -187,8 +187,7 @@ class Player {
     }
 
     /**
-     * reset the live span in score panel and the lives 
-     * property of the player 
+     * Reset the lives property of the player
      */
     resetLives() {
        
@@ -197,8 +196,7 @@ class Player {
     }
 
     /**
-     * reset the score span in score panel and the score 
-     * property of the player 
+     * Reset the score property of the player 
      */
     resetScore() {
         
@@ -206,7 +204,7 @@ class Player {
     }
 
     /**
-     * updates player coordinates to the initial position
+     * Updates player coordinates to the initial position
      */
     gotoInitialPosition() {
         this.x = playerInitialPositionX;
@@ -214,15 +212,15 @@ class Player {
     }
 
     /**
-     * check if the player reached the water on the canvas
+     * Check if the player reached the water on the canvas
      */
     reachedWater() {
            return this.y <= 90 ? true:false;
     }
 
     /**
-     * check for a collision between the player and the enemies and gems. 
-     * This method checks four areas: down left corner, up left corner
+     * Check for a collision between the player and the enemies and gems. 
+     * This method checks four areas: down left corner, up left corner,
      * down right corner and up right corner. If there is an overlap
      * between the player's and an the enemy's or gems' sprite, it will return
      * true, else will return false.
@@ -370,14 +368,14 @@ class Gem {
     }
 
     /**
-     * updates the position of gems. Do nothing because gems don't move
+     * Updates the position of gems. Do nothing because gems don't move
      */
     update() {
 
     }
 
     /**
-     * draw each gem on the canvas
+     * Draw each gem on the canvas
      */
     render() {
         const img = Resources.get(this.sprite);
@@ -387,7 +385,7 @@ class Gem {
     }
 
     /**
-     * static method that returns a different gem sprite: green, blue or orange
+     * Static method that returns a different gem sprite: green, blue or orange
      * based on a random number
      */
     static getRandomSprite() {
@@ -403,6 +401,10 @@ class Gem {
     }
 }
 
+/**
+ * Class to store the sounds of the game. It uses de Howler library
+ * https://github.com/goldfire/howler.js for playing sounds
+ */
 class HowlerSounds {
 
     constructor() {
@@ -420,9 +422,6 @@ class HowlerSounds {
         });  
         this.select = new Howl({
             src: ['../sounds/select.mp3'],
-            onend: function (){
-                
-            }
         });  
         this.backgroundMusic = new Howl({
             src: ['../sounds/LukHash_pixel_my_heart_trimmed.mp3'],
@@ -475,7 +474,6 @@ const toggleMusic = document.querySelector('.music');
 toggleMusic.addEventListener('click',handleToggleMusic);
 
 // instatiation of the player
-//const player = new Player(220, 470);
 const player = new Player(playerInitialPositionX,playerInitialPositionY);
 
 //array of enemies
@@ -489,11 +487,12 @@ let allGems;
 initializeGems();
 
 
-//create Howler class
+//create Howler object
 const howlerObject = new HowlerSounds();
 
 
-
+//Algorithm for presenting enemies on the screen
+//as the level increses, more enemies are added
 function initializeEnemies(level) {
 
     if (level >= 3 && level <= 4) {
@@ -514,6 +513,7 @@ function initializeEnemies(level) {
 
 }
 
+//this function places gems on the rocks
 function initializeGems() {
     allGems = []; 
     for (let row = 0;row<3;row++) {
@@ -542,7 +542,9 @@ function initializeGems() {
 }
 
 
-
+// Callback to handle focus in the modal
+// at the beginning of the game. It places
+// a rectangle underneath the player.
 function handleFocus(e){
 
     console.log(e);
@@ -560,7 +562,7 @@ function handleFocus(e){
 
 
 /**
- * inside de modal to chose a player, controls the focus of each image
+ * Inside the modal to chose a player, controls the focus of each image
  * using the trap pattern. If the player hits enter, the game starts.
  */
 function trapkey(e){
@@ -615,6 +617,11 @@ document.addEventListener('keyup', function (e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+
+/**
+ * Toggles music on or off, pausing of playing the background
+ * music
+ */
 function handleToggleMusic(){
     if(toggleMusic.innerHTML === 'music on') {
         toggleMusic.innerHTML = 'music off';
