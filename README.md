@@ -8,6 +8,11 @@ This is the third project of the Front-End Web Developer Nanodegree. The task wa
 
 ## Getting Started
 
+####live
+https://cahergil.github.io/froggergame/
+
+####local
+
 1. Clone this repo or download it
 `$ git clone https://github.com/cahergil/arcade-game.git `
 
