@@ -25,6 +25,9 @@ Use the arrow keys; up, right, down, left to move the hero. The player starts wi
 
 ## Resources
 
+## Attributions
+
+Thanks to Udacity for providing engine.js and resource.js. The original source code can be found at [frontend-nanodegree-arcade-game](https://github.com/udacity/frontend-nanodegree-arcade-game)
 
 ###### Web Font
 
